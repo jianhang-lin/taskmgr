@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav>
+  <mat-sidenav #sidenav position="start" mode="side">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
   <div class="site">
@@ -7,7 +7,7 @@
       <app-header></app-header>
     </header>
     <main>
-      <button (click)="sidenav.open()">打开侧边栏</button>
+      <button (click)="sidenav.toggle()">打开左侧边栏</button>
     </main>
     <footer>
       <app-footer></app-footer>
