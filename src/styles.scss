@@ -11,3 +11,14 @@ html, body, app-root, .site {
   flex-direction: column;// 按列排纵向的
 }
 
+main {
+  flex: 1;
+}
+
+header {
+  background-color: green;
+}
+
+footer {
+  background-color: blue;
+}
