@@ -34,6 +34,8 @@ html, body, app-root, mat-sidenav-container, .site {
   margin: 0;
 }
 
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 .site {
   display: flex;
   flex-direction: column;// 按列排纵向的
@@ -43,4 +45,6 @@ main {
   flex: 1;
 }
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
