@@ -4,10 +4,9 @@
   </mat-sidenav>
   <div class="site">
     <header>
-      <app-header></app-header>
+      <app-header (toggle)="sidenav.toggle()"></app-header>
     </header>
     <main>
-      <button (click)="sidenav.toggle()">打开左侧边栏</button>
     </main>
     <footer>
       <app-footer></app-footer>
