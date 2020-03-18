@@ -28,7 +28,7 @@ $taskmgr-theme: mat-light-theme($taskmgr-primary, $taskmgr-accent, $taskmgr-warn
 
 /* You can add global styles to this file, and also import other style files */
 // make html, body, app-root element and site container fill up screen
-html, body, app-root, .site {
+html, body, app-root, mat-sidenav-container, .site {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -43,8 +43,4 @@ main {
   flex: 1;
 }
 
-
-
-
-html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
