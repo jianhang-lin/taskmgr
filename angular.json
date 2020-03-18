@@ -122,6 +122,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "taskmgr"
+    }
+  },
+  "defaultProject": "taskmgr",
+  "cli": {
+    "analytics": "10b889ea-b6b4-4e7e-bf28-6993e2e61598"
+  }
 }
