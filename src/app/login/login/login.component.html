@@ -3,9 +3,11 @@
     <mat-card-title>登录</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field>
+    <mat-form-field floatLabel="auto">
       <mat-label>您的email</mat-label>
-      <input matInput type="text" placeholder="您的email">
+      <input matInput type="text" placeholder="" class="email-right-align">
+      <span matSuffix>@gmail.com</span>
+      <mat-hint>必填项</mat-hint>
     </mat-form-field>
   </mat-card-content>
   <mat-card-actions>
