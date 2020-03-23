@@ -6,6 +6,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './login/login.module';
+import { ProjectModule } from './project/project.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AppComponent } from './app.component';
     CoreModule,
     MatSidenavModule,
     SharedModule,
-    LoginModule
+    LoginModule,
+    ProjectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
