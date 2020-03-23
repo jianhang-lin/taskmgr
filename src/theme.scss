@@ -24,3 +24,12 @@ $taskmgr-theme: mat-light-theme($taskmgr-primary, $taskmgr-accent, $taskmgr-warn
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($taskmgr-theme);
+
+$taskmgr-dark-primary: mat-palette($mat-blue-gray);
+$taskmgr-dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$taskmgr-dark-warn: mat-palette($mat-deep-orange);
+$taskmgr-dark-theme: mat-light-theme($taskmgr-dark-primary, $taskmgr-dark-accent, $taskmgr-dark-warn);
+
+.taskmgr-dark-theme {
+  @include angular-material-theme($taskmgr-dark-theme);
+}
