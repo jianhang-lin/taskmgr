@@ -1,1 +1,17 @@
-<p>new-project works!</p>
+<form>
+  <h2 mat-dialog-title>新建项目</h2>
+  <div mat-dialog-content>
+    <mat-form-field floatLabel="auto" class="full-width">
+      <mat-label>项目名称</mat-label>
+      <input matInput type="text">
+    </mat-form-field>
+    <mat-form-field floatLabel="auto" class="full-width">
+      <mat-label>项目描述</mat-label>
+      <input matInput type="text">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" mat-raised-button color="primary" (click)="onClick()">保存</button>
+    <button type="button" mat-button mat-dialog-close="">关闭</button>
+  </div>
+</form>
