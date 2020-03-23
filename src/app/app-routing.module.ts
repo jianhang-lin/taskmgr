@@ -11,6 +11,11 @@ const routes: Routes = [
     path: 'project',
     redirectTo: '/project',
     pathMatch: 'full'
+  },
+  {
+    path: 'tasklist',
+    redirectTo: '/tasklists',
+    pathMatch: 'full'
   }
 ];
 

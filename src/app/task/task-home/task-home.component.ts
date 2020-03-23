@@ -67,4 +67,7 @@ export class TaskHomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openNewProjectDialog() {
+
+  }
 }

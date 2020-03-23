@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './login/login.module';
 import { ProjectModule } from './project/project.module';
 import { AppComponent } from './app.component';
+import {TaskModule} from './task/task.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AppComponent } from './app.component';
     MatSidenavModule,
     SharedModule,
     LoginModule,
-    ProjectModule
+    ProjectModule,
+    TaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]
