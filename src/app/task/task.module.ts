@@ -13,6 +13,9 @@ import { NewTaskComponent } from './new-task/new-task.component';
   imports: [
     SharedModule,
     TaskRoutingModule
+  ],
+  entryComponents: [
+    NewTaskComponent
   ]
 })
 export class TaskModule { }

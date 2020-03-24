@@ -7,9 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewTaskComponent implements OnInit {
 
+  priorities = [
+    {
+      label: '紧急',
+      value: 1
+    },
+    {
+      label: '重要',
+      value: 2
+    },
+    {
+      label: '普通',
+      value: 3
+    }
+  ];
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onClick() {
+
+  }
 }
