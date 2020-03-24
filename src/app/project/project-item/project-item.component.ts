@@ -13,6 +13,8 @@ export class ProjectItemComponent implements OnInit {
   @Output() onInvite = new EventEmitter<void>();
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onEdit = new EventEmitter<void>();
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onDel = new EventEmitter<void>();
 
   constructor() { }
 
@@ -25,5 +27,9 @@ export class ProjectItemComponent implements OnInit {
 
   onEditClick() {
     this.onEdit.emit();
+  }
+
+  onDelClick() {
+    this.onDel.emit();
   }
 }
