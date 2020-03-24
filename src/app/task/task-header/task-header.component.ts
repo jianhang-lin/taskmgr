@@ -11,6 +11,8 @@ export class TaskHeaderComponent implements OnInit {
   @Output() newTask = new EventEmitter<void>();
   @Output() moveAll = new EventEmitter<void>();
   @Output() delList = new EventEmitter<void>();
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onEditList = new EventEmitter<void>();
 
   constructor() { }
 
@@ -27,5 +29,9 @@ export class TaskHeaderComponent implements OnInit {
 
   onDelListClick() {
     this.delList.emit();
+  }
+
+  onEditListClick() {
+    this.onEditList.emit();
   }
 }

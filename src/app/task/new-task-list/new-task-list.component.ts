@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-task-list',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewTaskListComponent implements OnInit {
 
-  constructor() { }
+  title = '';
+
+  constructor(@Inject(MAT_DIALOG_DATA) private data, private dialogRef: MatDialogRef<NewTaskListComponent>) { }
 
   ngOnInit(): void {
+    this.title = this.data.title;
   }
 
+  onClick() {
+    this.dialogRef.close(this.title);
+  }
 }
