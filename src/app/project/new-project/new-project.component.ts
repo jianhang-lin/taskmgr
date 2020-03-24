@@ -9,10 +9,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class NewProjectComponent implements OnInit {
 
+  title = '';
   constructor(@Inject(MAT_DIALOG_DATA) private data,
               private dialogRef: MatDialogRef<NewProjectComponent>) { }
 
   ngOnInit(): void {
+    this.title = this.data.title;
     console.log(JSON.stringify(this.data));
   }
 
