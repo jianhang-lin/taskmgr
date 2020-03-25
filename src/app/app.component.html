@@ -1,6 +1,6 @@
 <mat-sidenav-container [class.taskmgr-dark-theme]="darkTheme">
   <mat-sidenav #sidenav position="start" mode="over">
-    <app-sidebar></app-sidebar>
+    <app-sidebar (navClick)="sidenav.toggle()"></app-sidebar>
   </mat-sidenav>
   <div class="site">
     <header>
