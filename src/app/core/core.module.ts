@@ -1,5 +1,6 @@
 import { NgModule, SkipSelf, Optional } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from '../app-routing.module';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,18 +11,19 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { loadSvgResouces } from '../utils/svg.util';
 
 
-
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, SidebarComponent],
   exports: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    AppRoutingModule
   ],
   imports: [
     HttpClientModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ]
 })
 export class CoreModule {
