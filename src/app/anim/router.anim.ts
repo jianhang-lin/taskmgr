@@ -13,7 +13,7 @@ export const slideToRight = trigger('routeAnim', [
   transition('* => void', [
     style({transform: 'translateX(0)', opacity: 1}),
     group([
-      animate('0.5s ease-in-out', style({transform: 'translateX(10)'})),
+      animate('0.5s ease-in-out', style({transform: 'translateX(100%)'})),
       animate('0.3s ease-in', style({opacity: 0})),
     ])
   ]),
