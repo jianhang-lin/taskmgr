@@ -1,4 +1,4 @@
-<form action="">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form, $event)">
   <mat-card>
     <mat-card-header>
       <mat-card-title>登录</mat-card-title>
@@ -6,11 +6,11 @@
     <mat-card-content>
       <mat-form-field floatLabel="auto" class="full-width">
         <mat-label>您的email</mat-label>
-        <input matInput type="text">
+        <input matInput type="text" formControlName="email">
       </mat-form-field>
       <mat-form-field floatLabel="auto" class="full-width">
         <mat-label>您的密码</mat-label>
-        <input matInput type="password">
+        <input matInput type="password" formControlName="password">
       </mat-form-field>
       <button mat-raised-button color="primary" type="button">登录</button>
     </mat-card-content>
