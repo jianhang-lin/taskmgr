@@ -1,14 +1,5 @@
-<form #f="ngForm">
-  <mat-form-field floatLabel="auto" class="full-width">
-    <mat-label>在这里快速建立一个任务</mat-label>
-    <input matInput type="text" [ngModel]="desc" name="desc" required>
-    <button matSuffix mat-icon-button type="button"><mat-icon>send</mat-icon></button>
-    <mat-error >不能为空</mat-error>
-  </mat-form-field>
-</form>
-<div>
-  表单数据：{{f.value | json}}
-</div>
-<div>
-  表单验证状态: {{f.valid | json}}
-</div>
+<mat-form-field floatLabel="auto" class="full-width">
+  <mat-label>在这里快速建立一个任务</mat-label>
+  <input matInput type="text" [(ngModel)]="desc">
+  <button matSuffix mat-icon-button type="button" (click)="sendQuickTask()"><mat-icon>send</mat-icon></button>
+</mat-form-field>
