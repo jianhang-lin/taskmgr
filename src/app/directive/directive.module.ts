@@ -7,6 +7,10 @@ import { DropDirective } from './drag-drop/drop.directive';
 
 @NgModule({
   declarations: [DragDirective, DropDirective],
+  exports: [
+    DragDirective,
+    DropDirective
+  ],
   imports: [
     CommonModule
   ]
