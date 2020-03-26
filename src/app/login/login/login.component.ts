@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: ['wang@163.com', Validators.compose([Validators.required, Validators.email])],
+      email: ['wang@163.com', Validators.compose([Validators.required, Validators.email, this.validate])],
       password: ['', Validators.required]
     });
   }
@@ -22,5 +22,18 @@ export class LoginComponent implements OnInit {
     ev.preventDefault();
     console.log(JSON.stringify(value));
     console.log(JSON.stringify(valid));
+  }
+
+  validate(c: FormControl): {[key: string]: any} {
+    if (!c.value) {
+      return null;
+    }
+    const pattern = /^wang+/;
+    if (pattern.test(c.value)) {
+      return null;
+    }
+    return {
+      emailNotValid: 'The email must start with wang'
+    };
   }
 }
