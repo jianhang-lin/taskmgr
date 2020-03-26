@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuickTaskComponent implements OnInit {
 
+  desc: string;
   constructor() { }
 
   ngOnInit(): void {
