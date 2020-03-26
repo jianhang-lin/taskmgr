@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {NewTaskComponent} from '../new-task/new-task.component';
-import {CopyTaskComponent} from '../copy-task/copy-task.component';
-import {ConfirmDialogComponent} from '../../shared/confirm-dialog/confirm-dialog.component';
-import {NewTaskListComponent} from '../new-task-list/new-task-list.component';
-import {slideToRight} from '../../anim/router.anim';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NewTaskComponent } from '../new-task/new-task.component';
+import { CopyTaskComponent } from '../copy-task/copy-task.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { NewTaskListComponent } from '../new-task-list/new-task-list.component';
+import { slideToRight } from '../../anim/router.anim';
 
 @Component({
   selector: 'app-task-home',
@@ -114,5 +114,18 @@ export class TaskHomeComponent implements OnInit {
   lauchNewListDialog() {
     const dialogRef = this.dialog.open(NewTaskListComponent, {data: {title: '新建列表名称：'}});
     dialogRef.afterClosed().subscribe(result => console.log(result));
+  }
+
+  handleMove(srcData, list) {
+    switch (srcData.tag) {
+      case 'task-item':
+        console.log('handling item');
+        break;
+      case 'task-list':
+        console.log('handling list');
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -2,6 +2,8 @@
                [@item] = "widerPriority"
                [ngClass]="{'priority-normal': item.priority === 3, 'priority-important': item.priority === 2, 'priority-emergency': item.priority === 1}"
                [appDrag]="true"
+               [dragTag]="'task-item'"
+               [dragData]="item"
                [draggedClass]="'drag-start'"
                (click)="onItemClick()">
   <mat-checkbox class="completion-status" [checked]="item.completed" (click)="onCheckBoxClick($event)"></mat-checkbox>
