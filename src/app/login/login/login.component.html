@@ -7,6 +7,7 @@
       <mat-form-field floatLabel="auto" class="full-width">
         <mat-label>您的email</mat-label>
         <input matInput type="text" formControlName="email">
+        <mat-error>{{this.form.controls.email.errors | json}}</mat-error>
       </mat-form-field>
       <mat-form-field floatLabel="auto" class="full-width">
         <mat-label>您的密码</mat-label>

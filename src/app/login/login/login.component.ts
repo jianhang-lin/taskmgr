@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     ev.preventDefault();
     console.log(JSON.stringify(value));
     console.log(JSON.stringify(valid));
+    this.form.controls.email.setValidators(this.validate);
   }
 
   validate(c: FormControl): {[key: string]: any} {
@@ -36,4 +37,5 @@ export class LoginComponent implements OnInit {
       emailNotValid: 'The email must start with wang'
     };
   }
+
 }
