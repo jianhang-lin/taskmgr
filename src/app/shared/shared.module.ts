@@ -73,7 +73,8 @@ import { AgeInputComponent } from './age-input/age-input.component';
     MatSelectModule,
     MatSidenavModule,
     DirectiveModule,
-    ImageListSelectComponent
+    ImageListSelectComponent,
+    AgeInputComponent
   ],
   entryComponents: [
     ConfirmDialogComponent
