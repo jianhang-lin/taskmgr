@@ -26,6 +26,14 @@ import { loadSvgResouces } from '../utils/svg.util';
     SharedModule,
     AppRoutingModule,
     ServicesModule.forRoot()
+  ],
+  providers: [
+    {
+      provide: 'BASE_CONFIG',
+      useValue: {
+        uri: 'http://localhost:8080'
+      }
+    }
   ]
 })
 export class CoreModule {
