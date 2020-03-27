@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit(form: FormGroup, ev: Event) {
+  onSubmit({value, valid}, ev: Event) {
 
   }
 }
