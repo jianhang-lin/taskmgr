@@ -30,20 +30,20 @@ export const debug = (message: string) => source => Observable.create(subscriber
     value => {
       if (!environment.production) {
         console.log(message, value);
-        subscriber.next(value);
       }
+      subscriber.next(value);
     },
     err => {
       if (!environment.production) {
         console.error('Error>>', message, err);
-        subscriber.error(err);
       }
+      subscriber.error(err);
     },
     () => {
       if (!environment.production) {
         console.log('Completed - ');
-        subscriber.complete(message);
       }
+      subscriber.complete(message);
     }
   );
   return subscription;
