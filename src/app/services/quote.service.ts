@@ -10,8 +10,8 @@ export class QuoteService {
 
   constructor(private http: HttpClient, @Inject('BASE_CONFIG') private config) { }
 
-  getQuote(): Observable<any> {
+  getQuote(): Observable<Quote> {
     const uri = `${this.config.uri}/quotes/${Math.floor(Math.random() * 10)}`;
-    return this.http.get<Observable<Quote>>(uri);
+    return this.http.get<Quote>(uri);
   }
 }
