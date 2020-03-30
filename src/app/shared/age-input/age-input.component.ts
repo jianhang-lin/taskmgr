@@ -1,7 +1,7 @@
 import { Component, forwardRef, OnInit, OnDestroy, Input } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter, map, merge, startWith } from 'rxjs/operators';
-import { combineLatest, Subscription} from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import {
   subDays,
   subMonths,
@@ -11,7 +11,7 @@ import {
   differenceInYears,
   isBefore,
   format,
-  parseJSON
+  parse
 } from 'date-fns';
 import { isValidDate } from '../../utils/date.util';
 export enum AgeUnit {
@@ -43,6 +43,7 @@ export interface Age {
   ]
 })
 export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
+  constructor(private fb: FormBuilder) { }
 
   @Input() daysTop = 90;
   @Input() daysBottom = 0;
@@ -60,14 +61,20 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   ];
   form: FormGroup;
   sub: Subscription;
+
+  validateDate(c: FormControl): {[key: string]: any} {
+    const val = c.value;
+    return isValidDate(val) ? null : {
+      birthDayInvalid: true
+    };
+  }
   private propagateChange = (_: any) => {};
-  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
       birthday: ['', this.validateDate],
       age: this.fb.group({
-        ageNum: [0],
+        ageNum: [],
         ageUnit: [AgeUnit.Year]
       }, {validator: this.validateAge('ageNum', 'ageUnit')})
     });
@@ -77,16 +84,16 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
 
     const birthday$ = birthday.valueChanges.pipe(map(d => {
       return {date: d, from: 'birthday'};
-    }), debounceTime(this.debounceTime), distinctUntilChanged(), filter(_ => birthday.valid));
-    const ageNum$ = ageNum.valueChanges.pipe(startWith(ageNum.value), debounceTime(this.debounceTime), distinctUntilChanged());
-    const ageUnit$ = ageUnit.valueChanges.pipe(startWith(ageUnit.value), debounceTime(this.debounceTime), distinctUntilChanged());
+    }), debounceTime(this.debounceTime), distinctUntilChanged(), filter(() => birthday.valid));
+    const ageNum$ = ageNum.valueChanges.pipe(startWith(ageNum.value as object), debounceTime(this.debounceTime), distinctUntilChanged());
+    const ageUnit$ = ageUnit.valueChanges.pipe(startWith(ageUnit.value as object), debounceTime(this.debounceTime), distinctUntilChanged());
     const age$ = combineLatest(ageNum$, ageUnit$, (n, u) => {
-      return this.toDate({age: n, unit: u});
+      return this.toDate({age: Number.isNaN(n) ? 0 : n, unit: u});
     }).pipe(map(d => {
       return {date: d, from: 'age'};
-    }), filter(_ => this.form.get('age').valid));
+    }), filter(() => this.form.get('age').valid));
 
-    const merged$ = birthday$.pipe(merge(age$), filter(_ => this.form.valid));
+    const merged$ = birthday$.pipe(merge(age$), filter(() => this.form.valid));
 
     merged$.subscribe(d => {
       const age = this.toAge(d.date);
@@ -111,8 +118,11 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
 
   writeValue(obj: any): void {
     if (obj) {
-      // let objValue = parseJSON(obj);
+      const date = obj;
       this.form.get('birthday').patchValue(obj);
+      const age = this.toAge(date);
+      this.form.get('age').get('ageNum').patchValue(age.age);
+      this.form.get('age').get('ageUnit').patchValue(age.unit);
     }
   }
 
@@ -125,7 +135,7 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   }
 
   toAge(dateStr: string): Age {
-    const date = parseJSON(dateStr);
+    const date = parse(dateStr, this.format, new Date());
     const now = Date.now();
     return isBefore(subDays(now, this.daysTop), date) ?
       {age: differenceInDays(now, date), unit: AgeUnit.Day} :
@@ -165,13 +175,6 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
     }
     return {
       dateOfBirthInvalid: true
-    };
-  }
-
-  validateDate(c: FormControl): {[key: string]: any} {
-    const val = c.value;
-    return isValidDate(val) ? null : {
-      birthDayInvalid: true
     };
   }
 
