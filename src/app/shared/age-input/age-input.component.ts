@@ -83,7 +83,7 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
     const ageUnit = this.form.get('age').get('ageUnit');
 
     const birthday$ = birthday.valueChanges.pipe(map(d => {
-      return {date: d, from: 'birthday'};
+      return {date: JSON.stringify(d).indexOf('T') > -1 ? format(d, this.format) : d, from: 'birthday'};
     }), debounceTime(this.debounceTime), distinctUntilChanged(), filter(() => birthday.valid));
     const ageNum$ = ageNum.valueChanges.pipe(startWith(ageNum.value as object), debounceTime(this.debounceTime), distinctUntilChanged());
     const ageUnit$ = ageUnit.valueChanges.pipe(startWith(ageUnit.value as object), debounceTime(this.debounceTime), distinctUntilChanged());
@@ -93,9 +93,31 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
       return {date: d, from: 'age'};
     }), filter(() => this.form.get('age').valid));
 
-    const merged$ = birthday$.pipe(merge(age$), filter(() => this.form.valid));
+    age$.subscribe( d => {
+      const age = this.toAge(d.date);
+      const ageToCompare = this.toAge(birthday.value);
+      if (age.age !== ageToCompare.age || age.unit !== ageToCompare.unit) {
+        birthday.patchValue(d.date, {emitEvent: false});
+        this.propagateChange(d.date);
+      }
+    });
 
-    merged$.subscribe(d => {
+    birthday$.subscribe( d => {
+      const age = this.toAge(d.date);
+      if (age.age !== ageNum.value) {
+        ageNum.patchValue(age.age, {emitEvent: false});
+      }
+      if (age.unit !== ageUnit.value) {
+        this.selectedUnit = age.unit;
+        ageUnit.patchValue(age.unit, {emitEvent: false});
+      }
+      this.propagateChange(d.date);
+    });
+
+    // const merged$ = birthday$.pipe(merge(age$), filter(() => this.form.valid));
+
+    /*merged$.subscribe(d => {
+      console.log('merged$:' + d);
       const age = this.toAge(d.date);
       if (d.from === 'birthday') {
         if (age.age !== ageNum.value) {
@@ -113,7 +135,8 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
           this.propagateChange(d.date);
         }
       }
-    });
+    });*/
+
   }
 
   writeValue(obj: any): void {
@@ -137,14 +160,17 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   toAge(dateStr: string): Age {
     const date = parse(dateStr, this.format, new Date());
     const now = Date.now();
-    return isBefore(subDays(now, this.daysTop), date) ?
-      {age: differenceInDays(now, date), unit: AgeUnit.Day} :
-        isBefore(subMonths(now, this.monthsTop), date) ?
-        {age: differenceInMonths(now, date), unit: AgeUnit.Month} :
-          {
-            age: differenceInYears(now, date),
-            unit: AgeUnit.Year
-          };
+    let beforeFlag = isBefore(subDays(now, this.daysTop), date);
+    if (beforeFlag) {
+      return {age: differenceInDays(now, date), unit: AgeUnit.Day};
+    } else {
+      beforeFlag = isBefore(subMonths(now, this.monthsTop), date);
+      if (beforeFlag) {
+        return {age: differenceInMonths(now, date), unit: AgeUnit.Month};
+      } else {
+        return {age: differenceInYears(now, date), unit: AgeUnit.Year};
+      }
+    }
   }
 
   toDate(age: Age): string {
