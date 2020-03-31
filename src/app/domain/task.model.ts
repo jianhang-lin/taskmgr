@@ -8,6 +8,6 @@ export interface TaskModel {
   createDate: Date;
   remark?: string;
   ownerId?: string;
-  participantId: string[];
+  participantIds: string[];
   taskListId: string;
 }

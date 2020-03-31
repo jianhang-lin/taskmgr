@@ -31,13 +31,13 @@ export class ProjectListComponent implements OnInit {
 
   openNewProjectDialog() {
     const dialogRef = this.dialog.open(NewProjectComponent, {data: {title: '新增项目：'}});
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      this.projects = [...this.projects,
+    dialogRef.afterClosed().subscribe(project => {
+      this.service$.add(project);
+      /*this.projects = [...this.projects,
         {id: 3, name: '一个新项目', desc: '这是一个新项目', coverImg: 'assets/img/covers/8.jpg'},
         {id: 4, name: '又一个新项目', desc: '这是又一个新项目', coverImg: 'assets/img/covers/7.jpg'},
         {id: 5, name: '又又一个新项目', desc: '这是又又一个新项目', coverImg: 'assets/img/covers/6.jpg'},
-      ];
+      ];*/
       this.cd.markForCheck();
     });
   }
