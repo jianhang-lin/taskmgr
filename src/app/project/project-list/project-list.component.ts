@@ -27,6 +27,7 @@ export class ProjectListComponent implements OnInit {
   ngOnInit(): void {
     this.service$.get('1').subscribe(projects => {
       this.projects = projects;
+      this.cd.markForCheck();
     });
   }
 
