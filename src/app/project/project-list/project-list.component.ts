@@ -7,6 +7,7 @@ import { slideToRight } from '../../anim/router.anim';
 import { listAnimation } from '../../anim/list.anim';
 import { ProjectService } from '../../services/project.service';
 import * as _ from 'lodash';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-list',
@@ -34,7 +35,7 @@ export class ProjectListComponent implements OnInit {
   openNewProjectDialog() {
     const selectedImg = `/assets/img/covers/${Math.floor(Math.random() * 40)}_tn.jpg`;
     const dialogRef = this.dialog.open(NewProjectComponent, {data: {thumbnails: this.getThumbnails(), img: selectedImg}});
-    dialogRef.afterClosed().subscribe(project => {
+    dialogRef.afterClosed().pipe(filter(n => n)).subscribe(project => {
       this.service$.add(project);
       /*this.projects = [...this.projects,
         {id: 3, name: '一个新项目', desc: '这是一个新项目', coverImg: 'assets/img/covers/8.jpg'},
