@@ -22,7 +22,7 @@ export class NewProjectComponent implements OnInit {
       this.form = this.fb.group({
         name: [this.data.project.name, Validators.required],
         desc: [this.data.project.desc],
-        coverImg: [this.data.project.coverImg]
+        coverImg: [this.data.project.coverImg.split('.jpg')[0] + '_tn.jpg']
       });
       this.title = '修改项目:';
     } else {

@@ -24,16 +24,14 @@ export class ProjectService {
     }));
   }
 
-  update(project: ProjectModel): Observable<void> {
+  update(project: ProjectModel): Observable<ProjectModel> {
     const uri = `${this.config.uri}/${this.domain}/${project.id}`;
     const toUpdate = {
       name: project.name,
       desc: project.desc,
       coverImg: project.coverImg
     };
-    return this.http.patch(uri, JSON.stringify(toUpdate), {headers: this.headers}).pipe(map(res => {
-      console.log(JSON.stringify(res));
-    }));
+    return this.http.patch<ProjectModel>(uri, JSON.stringify(toUpdate), {headers: this.headers});
   }
 
   del(project: ProjectModel): Observable<ProjectModel> {
