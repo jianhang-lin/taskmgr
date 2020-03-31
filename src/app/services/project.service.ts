@@ -16,12 +16,10 @@ export class ProjectService {
   });
   constructor(private http: HttpClient, @Inject('BASE_CONFIG') private config) { }
 
-  add(project: ProjectModel): Observable<void> {
+  add(project: ProjectModel): Observable<ProjectModel> {
     project.id = null;
     const uri = `${this.config.uri}/${this.domain}`;
-    return this.http.post(uri, JSON.stringify(project), {headers: this.headers}).pipe(map(res => {
-      console.log(JSON.stringify(res));
-    }));
+    return this.http.post<ProjectModel>(uri, JSON.stringify(project), {headers: this.headers});
   }
 
   update(project: ProjectModel): Observable<ProjectModel> {
@@ -35,7 +33,8 @@ export class ProjectService {
   }
 
   del(project: ProjectModel): Observable<ProjectModel> {
-    const delTasks$ = from(project.taskLists).pipe(mergeMap(listId => this.http.delete(`${this.config.uri}/taskLists/${listId}`)), count());
+    const delTasks$ = from(project.taskLists ? project.taskLists : [])
+      .pipe(mergeMap(listId => this.http.delete(`${this.config.uri}/taskLists/${listId}`)), count());
     return delTasks$.pipe(switchMap(_ => this.http.delete(`${this.config.uri}/${this.domain}/${project.id}`)), mapTo(project));
   }
 

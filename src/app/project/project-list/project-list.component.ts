@@ -67,9 +67,8 @@ export class ProjectListComponent implements OnInit {
 
   launchConfirmDailog(project) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {data: {title: '删除项目：', content: '您确认删除该项目吗?'}});
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      this.projects = this.projects.filter(p => p.id !== project.id);
+    dialogRef.afterClosed().pipe(take(1), filter(n => n), switchMap(v => this.service$.del(project))).subscribe(prj => {
+      this.projects = this.projects.filter(p => p.id !== prj.id);
       this.cd.markForCheck();
     });
   }
