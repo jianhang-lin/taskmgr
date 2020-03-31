@@ -6,6 +6,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 import { slideToRight } from '../../anim/router.anim';
 import { listAnimation } from '../../anim/list.anim';
 import { ProjectService } from '../../services/project.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-project-list',
@@ -30,7 +31,8 @@ export class ProjectListComponent implements OnInit {
   }
 
   openNewProjectDialog() {
-    const dialogRef = this.dialog.open(NewProjectComponent, {data: {title: '新增项目：'}});
+    const selectedImg = `/assets/img/covers/${Math.floor(Math.random() * 40)}_tn.jpg`;
+    const dialogRef = this.dialog.open(NewProjectComponent, {data: {thumbnails: this.getThumbnails(), img: selectedImg}});
     dialogRef.afterClosed().subscribe(project => {
       this.service$.add(project);
       /*this.projects = [...this.projects,
@@ -57,5 +59,9 @@ export class ProjectListComponent implements OnInit {
       this.projects = this.projects.filter(p => p.id !== project.id);
       this.cd.markForCheck();
     });
+  }
+
+  private getThumbnails() {
+    return _.range(0, 40).map(i => `/assets/img/covers/${i}_tn.jpg`);
   }
 }
