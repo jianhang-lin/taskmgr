@@ -17,7 +17,7 @@ export class InviteComponent implements OnInit {
    ) { }
 
   ngOnInit(): void {
-    this.members = [...this.data.memebers];
+    this.members = this.data.memebers ? [...this.data.memebers] : [];
   }
 
   onSubmit(ev: Event, {valide, value}) {
