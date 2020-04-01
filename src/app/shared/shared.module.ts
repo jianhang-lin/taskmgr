@@ -19,6 +19,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DirectiveModule } from '../directive/directive.module';
@@ -50,6 +51,7 @@ import { ChipsListComponent } from './chips-list/chips-list.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatChipsModule,
     MatSidenavModule,
     DirectiveModule
   ],
@@ -75,6 +77,7 @@ import { ChipsListComponent } from './chips-list/chips-list.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatChipsModule,
     MatSidenavModule,
     DirectiveModule,
     ImageListSelectComponent,
