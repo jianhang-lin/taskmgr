@@ -81,7 +81,8 @@ import { ChipsListComponent } from './chips-list/chips-list.component';
     MatSidenavModule,
     DirectiveModule,
     ImageListSelectComponent,
-    AgeInputComponent
+    AgeInputComponent,
+    ChipsListComponent
   ],
   entryComponents: [
     ConfirmDialogComponent
