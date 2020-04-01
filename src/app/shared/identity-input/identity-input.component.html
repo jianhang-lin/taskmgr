@@ -1,7 +1,7 @@
 <div>
   <mat-form-field>
     <mat-label>证件类型</mat-label>
-    <mat-select placeholder="" (change)="onIdTypeChange(identity.identityType)" [(ngModel)]="identity.identityType">
+    <mat-select placeholder="" (selectionChange)="onIdTypeChange(identity.identityType)" [(ngModel)]="identity.identityType">
       <mat-option *ngFor="let type of identityTypes" [value]="type.value">
         {{type.lable}}
       </mat-option>

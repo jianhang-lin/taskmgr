@@ -120,7 +120,7 @@ export class IdentityInputComponent implements OnInit, OnDestroy, ControlValueAc
   }
 
   private validateIdCard(c: FormControl): {[key: string]: any} {
-    const val = c.value.indentityNo;
+    const val = c.value.identityNo;
     if (val.length !== 18) {
       return {idInvalid: true};
     }
@@ -129,7 +129,7 @@ export class IdentityInputComponent implements OnInit, OnDestroy, ControlValueAc
   }
 
   private validatePassport(c: FormControl): {[key: string]: any} {
-    const val = c.value.indentityNo;
+    const val = c.value.identityNo;
     if (val.length !== 9) {
       return {idInvalid: true};
     }
@@ -138,7 +138,7 @@ export class IdentityInputComponent implements OnInit, OnDestroy, ControlValueAc
   }
 
   private validateMilitary(c: FormControl): {[key: string]: any} {
-    const val = c.value.indentityNo;
+    const val = c.value.identityNo;
     const pattern = /[\u4e00-\u9fa5](字第)(\d{4,8})(号?)$/;
     return pattern.test(val) ? null : {idNotValid: true};
   }
