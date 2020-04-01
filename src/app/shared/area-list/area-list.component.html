@@ -2,7 +2,7 @@
   <div>
     <mat-form-field>
       <mat-label>请输入省份</mat-label>
-      <mat-select placeholder="" [(ngModel)]="_address.province" (change)="onProvinceChange()">
+      <mat-select placeholder="" [(ngModel)]="_address.province" (selectionChange)="onProvinceChange()">
         <mat-option *ngFor="let p of province$ | async" [value]="p">{{p}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -10,15 +10,15 @@
   <div>
     <mat-form-field>
       <mat-label>请输入城市</mat-label>
-      <mat-select placeholder="" [(ngModel)]="_address.city" (change)="onCityChange()">
-        <mat-option *ngFor="let c of city$ | async" [value]="c"></mat-option>
+      <mat-select placeholder="" [(ngModel)]="_address.city" (selectionChange)="onCityChange()">
+        <mat-option *ngFor="let c of city$ | async" [value]="c">{{c}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
       <mat-label>请输入区县</mat-label>
-      <mat-select placeholder="" [(ngModel)]="_address.district" (change)="onDistrictChange()">
+      <mat-select placeholder="" [(ngModel)]="_address.district" (selectionChange)="onDistrictChange()">
         <mat-option *ngFor="let d of district$ | async" [value]="d">{{d}}</mat-option>
       </mat-select>
     </mat-form-field>
