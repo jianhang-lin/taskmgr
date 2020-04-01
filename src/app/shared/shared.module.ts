@@ -22,6 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { DirectiveModule } from '../directive/directive.module';
 import { ImageListSelectComponent } from './image-list-select/image-list-select.component';
 import { AgeInputComponent } from './age-input/age-input.component';
@@ -30,7 +32,14 @@ import { IdentityInputComponent } from './identity-input/identity-input.componen
 import { AreaListComponent } from './area-list/area-list.component';
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, ImageListSelectComponent, AgeInputComponent, ChipsListComponent, IdentityInputComponent, AreaListComponent],
+  declarations: [
+    ConfirmDialogComponent,
+    ImageListSelectComponent,
+    AgeInputComponent,
+    ChipsListComponent,
+    IdentityInputComponent,
+    AreaListComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -55,6 +64,8 @@ import { AreaListComponent } from './area-list/area-list.component';
     MatSelectModule,
     MatChipsModule,
     MatSidenavModule,
+    MatTableModule,
+    MatTabsModule,
     DirectiveModule
   ],
   exports: [
@@ -81,10 +92,14 @@ import { AreaListComponent } from './area-list/area-list.component';
     MatSelectModule,
     MatChipsModule,
     MatSidenavModule,
+    MatTableModule,
+    MatTabsModule,
     DirectiveModule,
     ImageListSelectComponent,
     AgeInputComponent,
-    ChipsListComponent
+    ChipsListComponent,
+    IdentityInputComponent,
+    AreaListComponent
   ],
   entryComponents: [
     ConfirmDialogComponent

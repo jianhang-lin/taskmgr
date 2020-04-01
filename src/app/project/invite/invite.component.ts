@@ -20,9 +20,9 @@ export class InviteComponent implements OnInit {
     this.members = this.data.memebers ? [...this.data.memebers] : [];
   }
 
-  onSubmit(ev: Event, {valide, value}) {
+  onSubmit(ev: Event, {value, valid}) {
     ev.preventDefault();
-    if (!valide) {
+    if (!valid) {
       return;
     }
     this.dialogRef.close(this.members);
