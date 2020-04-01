@@ -9,3 +9,24 @@ mat-icon.avatar {
 mat-card {
   width: 600px;
 }
+
+.card {
+  margin: 15px;
+  display: flex;
+}
+
+.text-right {
+  margin: 10px;
+  text-align: end;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+}
+
+mat-tab {
+  display: flex;
+  flex: 0 1 auto;
+}
