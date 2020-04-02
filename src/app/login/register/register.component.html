@@ -6,21 +6,21 @@
           <mat-card-title>注册</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-form-field floatLabel="auto" class="full-width" formControlName="email" ngDefaultControl>
+          <mat-form-field floatLabel="auto" class="full-width">
             <mat-label>您的email</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="email">
           </mat-form-field>
-          <mat-form-field floatLabel="auto" class="full-width" formControlName="name" ngDefaultControl>
+          <mat-form-field floatLabel="auto" class="full-width">
             <mat-label>您的姓名</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="name">
           </mat-form-field>
-          <mat-form-field floatLabel="auto" class="full-width" formControlName="password" ngDefaultControl>
+          <mat-form-field floatLabel="auto" class="full-width">
             <mat-label>您的密码</mat-label>
-            <input matInput type="password">
+            <input matInput type="password" formControlName="password">
           </mat-form-field>
-          <mat-form-field floatLabel="auto" class="full-width" formControlName="repeat" ngDefaultControl>
+          <mat-form-field floatLabel="auto" class="full-width">
             <mat-label>重复输入您的密码</mat-label>
-            <input matInput type="password">
+            <input matInput type="password" formControlName="repeat">
           </mat-form-field>
           <app-image-list-select
             [useSvgIcon]="true"

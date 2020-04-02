@@ -50,8 +50,8 @@ export class AuthEffects {
   );
 
   @Effect()
-  registerAndNavigate: Observable<Action> = this.actions$.pipe(
-    ofType(actions.ActionTypes.LOGIN_SUCCESS),
+  registerAndNavigate$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.REGISTER_SUCCESS),
     map(out => new RouterActions.Go({path: ['/projects']}))
   );
 

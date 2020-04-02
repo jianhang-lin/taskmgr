@@ -20,10 +20,9 @@ export class AuthService {
   constructor(private http: HttpClient, @Inject('BASE_CONFIG') private config) { }
 
   register(user: User): Observable<Auth> {
-    user.id = null;
     const uri = `${this.config.uri}/${this.domain}`;
     return this.http.get<Auth>(uri, {params: {email: user.email}}).pipe(switchMap(res => {
-      if (res) {
+      if (JSON.stringify(res) !== '[]') {
         throw new Error('user existed');
       }
       return this.http.post<Auth>(uri, JSON.stringify(user), {headers: this.headers}).pipe(
