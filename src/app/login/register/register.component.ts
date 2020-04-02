@@ -4,6 +4,9 @@ import { debounceTime, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { isValidDate } from '../../utils/date.util';
 import { isValidAddr, getAddrByCode , extractInfo} from '../../utils/identity.util';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import * as authActions from '../../actions/auth.action';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +19,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   items: string[];
   sub: Subscription;
   private readonly avatarName = 'avatars';
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private store$: Store<fromRoot.State>) { }
 
   ngOnInit(): void {
     const img = `${this.avatarName}:svg-${Math.floor(Math.random() * 16).toFixed(0)}`;
@@ -32,7 +35,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       address: [],
       identity: []
     });
-    const id$ = this.form.get('identity').valueChanges.pipe(debounceTime(300), filter(v => this.form.get('identity').valid));
+    const id$ = this.form.get('identity').valueChanges.pipe(debounceTime(300), filter(() => this.form.get('identity').valid));
     this.sub = id$.subscribe(id => {
       const info = extractInfo(id.identityNo);
       if (isValidAddr(info.addrCode)) {
@@ -56,6 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (!valid) {
       return;
     }
-    console.log(value);
+    this.store$.dispatch(new authActions.RegisterAction(value));
   }
 }
