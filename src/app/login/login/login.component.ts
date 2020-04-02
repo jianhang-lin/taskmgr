@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { QuoteModel } from '../../domain/quote.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { QuoteModel } from '../../domain';
 import { Observable } from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as actions from '../../actions/quote.action';
+import * as authActions from '../../actions/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -25,29 +26,18 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: ['wang@163.com', Validators.compose([Validators.required, Validators.email, this.validate])],
+      email: ['wang@163.com', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.required]
     });
   }
 
   onSubmit({value, valid}, ev: Event) {
     ev.preventDefault();
-    console.log(JSON.stringify(value));
-    console.log(JSON.stringify(valid));
-    this.form.controls.email.setValidators(this.validate);
-  }
-
-  validate(c: FormControl): {[key: string]: any} {
-    if (!c.value) {
-      return null;
+    if (!valid) {
+      return;
     }
-    const pattern = /^wang+/;
-    if (pattern.test(c.value)) {
-      return null;
-    }
-    return {
-      emailNotValid: 'The email must start with wang'
-    };
+    // this.form.controls.email.setValidators(this.validate);
+    this.store$.dispatch(new authActions.LoginAction(value));
   }
 
 }
