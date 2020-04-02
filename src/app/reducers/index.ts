@@ -6,6 +6,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { compose } from '@ngrx/core/compose';
 import { environment } from '../../environments/environment';
 import { RouterModule } from '@angular/router';
+import { createSelector } from 'reselect';
 
 export interface State {
   quote: fromQuote.State;
@@ -26,12 +27,13 @@ export function reducer(state = initialState, action: any ): State {
   return environment.production ? productionReducers(state, action) : developmentReducers(state, action);
 }
 
+export const getQuoteState = (state: State) => state.quote;
+
+export const getQuote = createSelector(getQuoteState, fromQuote.getQuote);
 
 @NgModule({
   imports: [
-    StoreModule.forRoot({
-      store: reducer
-    }),
+    StoreModule.forRoot(reducers),
     // EffectsModule.forRoot([]),
     RouterModule.forRoot([
 

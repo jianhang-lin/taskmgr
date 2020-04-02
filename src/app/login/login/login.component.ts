@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { QuoteService } from '../../services/quote.service';
 import { QuoteModel } from '../../domain/quote.model';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as actions from '../../actions/quote.action';
 
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     private quoteService$: QuoteService,
     private store$: Store<any>
   ) {
-    this.quote$ = this.store$.select(state => state.store.quote.quote);
+    this.quote$ = this.store$.pipe(select(fromRoot.getQuote));
     this.quoteService$.getQuote().subscribe(q => this.store$.dispatch(new actions.LoadSuccessAction(q)));
   }
 

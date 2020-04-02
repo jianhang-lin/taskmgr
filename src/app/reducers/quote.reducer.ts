@@ -24,3 +24,5 @@ export function reducer(state = initialState, action: actions.Actions ): State {
     }
   }
 }
+
+export const getQuote = (state: State) => state.quote;
