@@ -1,7 +1,3 @@
-export const QUOTE = 'Quote';
-export const QUOTE_SUCCESS = 'Quote Success';
-export const QUOTE_FAIL = 'Quote fail';
-
 import { Action } from '@ngrx/store';
 import { QuoteModel } from '../domain';
 import { type } from '../utils/type.util';
