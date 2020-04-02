@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuoteService } from '../../services/quote.service';
 import { QuoteModel } from '../../domain/quote.model';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import * as actions from '../../actions/quote.action';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +15,14 @@ import { QuoteModel } from '../../domain/quote.model';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  quote: QuoteModel = {
-    cn: '我突然就觉得自己像个华丽的木偶,演尽了所有的悲欢离合,可是背上总是有无数闪亮的银色丝线,操纵我哪怕一举手一投足。',
-    en: 'I suddenly feel myself like a doll,acting all kinds of joys and sorrows.There are lots of shining silvery thread on my back',
-    pic: 'assets/img/quotes/0.jpg'
-  };
-  constructor(private fb: FormBuilder, private quoteService$: QuoteService) {
-    this.quoteService$.getQuote().subscribe(q => this.quote = q);
+  quote$: Observable<QuoteModel>;
+  constructor(
+    private fb: FormBuilder,
+    private quoteService$: QuoteService,
+    private store$: Store<any>
+  ) {
+    this.quote$ = this.store$.select(state => state.store.quote.quote);
+    this.quoteService$.getQuote().subscribe(q => this.store$.dispatch({type: actions.QUOTE_SUCCESS, payload: q}));
   }
 
   ngOnInit(): void {

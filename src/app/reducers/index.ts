@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { ActionReducer, combineReducers, StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as fromQuote from './quote.reducer';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { compose } from '@ngrx/core/compose';
 import { environment } from '../../environments/environment';
+import { RouterModule } from '@angular/router';
 
 export interface State {
   quote: fromQuote.State;
@@ -29,9 +29,15 @@ export function reducer(state = initialState, action: any ): State {
 
 @NgModule({
   imports: [
-    StoreModule.forRoot(reducer),
-    StoreRouterConnectingModule,
-    StoreDevtoolsModule.instrument()
+    StoreModule.forRoot({
+      store: reducer
+    }),
+    // EffectsModule.forRoot([]),
+    RouterModule.forRoot([
+
+    ]),
+    StoreRouterConnectingModule.forRoot(),
+    // !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : []
   ]
 })
 export class AppStoreModule {
