@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private store$: Store<any>
   ) {
     this.quote$ = this.store$.select(state => state.store.quote.quote);
-    this.quoteService$.getQuote().subscribe(q => this.store$.dispatch({type: actions.QUOTE_SUCCESS, payload: q}));
+    this.quoteService$.getQuote().subscribe(q => this.store$.dispatch(new actions.LoadSuccessAction(q)));
   }
 
   ngOnInit(): void {
