@@ -42,6 +42,7 @@ export const getAuthState = (state: State) => state.auth;
 export const getProjectState = (state: State) => state.projects;
 
 export const getQuote = createSelector(getQuoteState, fromQuote.getQuote);
+// export const getCurrentAuth = createSelector(getAuthState, fromAuth.getAuth);
 export const getProjects = createSelector(getProjectState, fromProject.getAll);
 
 @NgModule({

@@ -5,11 +5,13 @@ import { InviteComponent } from '../invite/invite.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { slideToRight } from '../../anim/router.anim';
 import { listAnimation } from '../../anim/list.anim';
-import { ProjectService } from '../../services/project.service';
 import * as _ from 'lodash';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import * as fromRoot from '../../reducers';
+import * as actions from '../../actions/project.action';
+import { filter, map, take } from 'rxjs/operators';
 import { ProjectModel } from '../../domain';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-project-list',
@@ -24,21 +26,22 @@ import { Subscription } from 'rxjs';
 export class ProjectListComponent implements OnInit, OnDestroy {
 
   @HostBinding('@routeAnim') state;
-  projects;
-  sub: Subscription;
-  constructor(private dialog: MatDialog, private cd: ChangeDetectorRef, private service$: ProjectService) { }
+  projects$: Observable<ProjectModel[]>;
+  listAnim$: Observable<number>;
+  constructor(
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef,
+    private store$: Store) {
+    this.store$.dispatch(new actions.LoadAction(null));
+    this.projects$ = this.store$.select(fromRoot.getProjects);
+    this.listAnim$ = this.projects$.pipe(map(p => p.length));
+  }
 
   ngOnInit(): void {
-    this.sub = this.service$.get('1').subscribe(projects => {
-      this.projects = projects;
-      this.cd.markForCheck();
-    });
+
   }
 
   ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
   }
 
   openNewProjectDialog() {
@@ -47,15 +50,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(
       take(1),
       filter(n => n),
-      map(val => ({...val, coverImg: this.buildImgSrc(val.coverImg)})),
-      switchMap(v => this.service$.add(v))).
+      map(val => ({...val, coverImg: this.buildImgSrc(val.coverImg)}))).
     subscribe(project => {
-      this.projects = [...this.projects, project];
-      this.cd.markForCheck();
+      this.store$.dispatch(new actions.AddAction(project));
     });
   }
 
-  launchInviteDialog() {
+  launchInviteDialog(project: ProjectModel) {
     const dialogRef = this.dialog.open(InviteComponent, {data: {members: []}});
   }
 
@@ -64,20 +65,16 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(
       take(1),
       filter(n => n),
-      map(val => ({...val, id: project.id, coverImg: this.buildImgSrc(val.coverImg)})),
-      switchMap(v => this.service$.update(v))).
+      map(val => ({...val, id: project.id, coverImg: this.buildImgSrc(val.coverImg)}))).
     subscribe(pp => {
-      const index = this.projects.map(p => p.id).indexOf(pp.id);
-      this.projects = [...this.projects.slice(0, index), pp, ...this.projects.slice(index + 1)];
-      this.cd.markForCheck();
+      this.store$.dispatch(new actions.UpdateAction(pp));
     });
   }
 
   launchConfirmDailog(project) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {data: {title: '删除项目：', content: '您确认删除该项目吗?'}});
-    dialogRef.afterClosed().pipe(take(1), filter(n => n), switchMap(v => this.service$.del(project))).subscribe(prj => {
-      this.projects = this.projects.filter(p => p.id !== prj.id);
-      this.cd.markForCheck();
+    dialogRef.afterClosed().pipe(take(1), filter(n => n)).subscribe(p => {
+      this.store$.dispatch(new actions.DeleteAction(project));
     });
   }
 
