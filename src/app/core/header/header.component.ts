@@ -1,4 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import { Observable } from 'rxjs';
+import { Auth } from '../../services/auth.model';
+import * as authActions from '../../actions/auth.action';
+import {getAuthState} from '../../reducers';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +13,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  auth$: Observable<Auth>;
   @Output() toggle = new EventEmitter<void>();
   @Output() toggleDarkTheme = new EventEmitter<boolean>();
 
-  constructor() { }
+  constructor(private store$: Store<fromRoot.State>) {
+    this.auth$ = this.store$.select(getAuthState);
+  }
 
   ngOnInit() {
   }
@@ -21,5 +30,9 @@ export class HeaderComponent implements OnInit {
 
   onChange(checked: boolean) {
     this.toggleDarkTheme.emit(checked);
+  }
+
+  logout() {
+    this.store$.dispatch(new authActions.LogoutAction(null));
   }
 }
