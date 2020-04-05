@@ -1,7 +1,7 @@
 import * as actions from '../actions/project.action';
 import { ProjectModel } from '../domain';
 import * as _ from 'lodash';
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 
 export interface State {
   ids: string[];

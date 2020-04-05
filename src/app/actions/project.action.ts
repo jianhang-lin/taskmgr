@@ -126,7 +126,7 @@ export class InviteFailAction implements Action {
   }
 }
 
-export class SelectProjectAction implements Action {
+export class SelectAction implements Action {
   type = ActionTypes.SELECT_PROJECT;
 
   constructor(public payload: ProjectModel) {
@@ -138,5 +138,5 @@ export type Actions = AddAction | AddSuccessAction | AddFailAction |
   DeleteAction | DeleteSuccessAction | DeleteFailAction |
   LoadAction | LoadSuccessAction | LoadFailAction |
   InviteAction | InviteSuccessAction | InviteFailAction |
-  SelectProjectAction;
+  SelectAction;
 
