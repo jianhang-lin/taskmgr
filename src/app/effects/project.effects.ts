@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
 import * as actions from '../actions/project.action';
 import * as RouterActions from '../actions/router.action';
 import * as fromRoot from '../reducers';
 import * as listActions from '../actions/task-list.action';
+import * as userActions from '../actions/user.action';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ProjectService } from '../services/project.service';
-import {ProjectModel} from '../domain';
+import { ProjectModel } from '../domain';
 
 const toPayload = <T>(action: {payload: T}) => action.payload;
 
@@ -101,6 +102,15 @@ export class ProjectEffects {
         catchError(err => of(new actions.InviteFailAction(JSON.stringify(err))))
       )
     )
+  );
+
+  @Effect()
+  loadUsers$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.LOAD_SUCCESS),
+    map(toPayload),
+    switchMap((projects: ProjectModel[]) => from(projects.map(prj => prj.id)).pipe(
+      map(projectId => new userActions.LoadAction(projectId))
+    ))
   );
 
   constructor(

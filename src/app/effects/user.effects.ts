@@ -13,7 +13,7 @@ import { ProjectModel, User } from '../domain';
 const toPayload = <T>(action: {payload: T}) => action.payload;
 
 @Injectable()
-export class TaskListEffects {
+export class UserEffects {
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$.pipe(
