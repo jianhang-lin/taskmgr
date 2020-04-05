@@ -21,9 +21,9 @@ export const ActionTypes = {
   MOVE_ALL: type('[Task] Move All'),
   MOVE_ALL_SUCCESS: type('[Task] Move All Success'),
   MOVE_ALL_FAIL: type('[Task] Move All Fail'),
-  COMPLETE_ALL: type('[Task] Complete'),
-  COMPLETE_ALL_SUCCESS: type('[Task] Complete Success'),
-  COMPLETE_ALL_FAIL: type('[Task] Complete Fail'),
+  COMPLETE: type('[Task] Complete'),
+  COMPLETE_SUCCESS: type('[Task] Complete Success'),
+  COMPLETE_FAIL: type('[Task] Complete Fail'),
 };
 
 export class AddAction implements Action {
@@ -153,21 +153,21 @@ export class MoveAllFailAction implements Action {
 }
 
 export class CompleteAction implements Action {
-  type = ActionTypes.COMPLETE_ALL;
+  type = ActionTypes.COMPLETE;
 
   constructor(public payload: TaskModel) {
   }
 }
 
 export class CompleteSuccessAction implements Action {
-  type = ActionTypes.COMPLETE_ALL_SUCCESS;
+  type = ActionTypes.COMPLETE_SUCCESS;
 
   constructor(public payload: TaskModel) {
   }
 }
 
 export class CompleteFailAction implements Action {
-  type = ActionTypes.COMPLETE_ALL_FAIL;
+  type = ActionTypes.COMPLETE_FAIL;
 
   constructor(public payload: string) {
   }
