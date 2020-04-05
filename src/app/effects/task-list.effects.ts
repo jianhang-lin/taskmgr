@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
 import * as actions from '../actions/task-list.action';
 import * as RouterActions from '../actions/router.action';
+import * as taskActions from '../actions/task.action';
 import * as fromRoot from '../reducers';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { TaskListService } from '../services/task-list.service';
@@ -74,6 +75,13 @@ export class TaskListEffects {
       map(taskLists => new actions.SwapSuccessAction(taskLists)),
       catchError(err => of(new actions.SwapFailAction(JSON.stringify(err))))
     ))
+  );
+
+  @Effect()
+  loadTasks$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.LOAD_SUCCESS),
+    map(toPayload),
+    map((lists: TaskListModel[]) => new taskActions.LoadAction(lists))
   );
 
   constructor(
