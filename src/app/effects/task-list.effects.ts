@@ -40,14 +40,11 @@ export class TaskListEffects {
   );
 
   @Effect()
-    // @ts-ignore
   updateTaskLists$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.UPDATE),
     map(toPayload),
-    // @ts-ignore
-    switchMap((taskList) => this.service$.update(taskList)
+    switchMap((taskList: TaskListModel) => this.service$.update(taskList)
       .pipe(
-        // @ts-ignore
         map(tl => new actions.UpdateSuccessAction(tl)),
         catchError(err => of(new actions.UpdateFailAction(JSON.stringify(err))))
       )

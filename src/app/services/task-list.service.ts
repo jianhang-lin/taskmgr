@@ -21,14 +21,12 @@ export class TaskListService {
     return this.http.post<TaskListModel>(uri, JSON.stringify(taskList), {headers: this.headers});
   }
 
-  update(taskList: TaskListModel): Observable<void> {
+  update(taskList: TaskListModel): Observable<TaskListModel> {
     const uri = `${this.config.uri}/${this.domain}/${taskList.id}`;
     const toUpdate = {
       name: taskList.name
     };
-    return this.http.patch(uri, JSON.stringify(toUpdate), {headers: this.headers}).pipe(map(res => {
-      console.log(JSON.stringify(res));
-    }));
+    return this.http.patch<TaskListModel>(uri, JSON.stringify(toUpdate), {headers: this.headers});
   }
 
   del(taskList: TaskListModel): Observable<TaskListModel> {
