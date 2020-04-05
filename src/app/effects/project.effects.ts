@@ -5,8 +5,10 @@ import { Action, Store } from '@ngrx/store';
 import * as actions from '../actions/project.action';
 import * as RouterActions from '../actions/router.action';
 import * as fromRoot from '../reducers';
+import * as listActions from '../actions/task-list.action';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ProjectService } from '../services/project.service';
+import {ProjectModel} from '../domain';
 
 const toPayload = <T>(action: {payload: T}) => action.payload;
 
@@ -77,8 +79,14 @@ export class ProjectEffects {
   selectProjects$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.SELECT_PROJECT),
     map(toPayload),
-    // @ts-ignore
-    map(project => new RouterActions.Go({path: [`/projects/${project.id}`]}))
+    map((project: ProjectModel) => new RouterActions.Go({path: [`/tasklists/${project.id}`]}))
+  );
+
+  @Effect()
+  loadTaskLists: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.SELECT_PROJECT),
+    map(toPayload),
+    map((project: ProjectModel) => new listActions.LoadAction(project.id))
   );
 
   @Effect()
