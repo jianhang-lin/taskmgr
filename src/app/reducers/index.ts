@@ -63,6 +63,30 @@ export const getTaskLists = createSelector(getTaskListState, fromTaskList.getSel
 export const getTasks = createSelector(getTaskState, fromTask.getTasks);
 export const getUsers = createSelector(getUserState, fromUser.getUsers);
 
+export const getUserEntities = createSelector(getUserState, fromUser.getEntities);
+export const getTasksWithOwners = createSelector(getTasks, getUserEntities, (tasks, userEntities) => {
+  return tasks.map(task => {
+    return {
+      ...task,
+      owner: userEntities[task.ownerId],
+      participants: task.participantIds.map(id => userEntities[id])
+    };
+  });
+});
+
+export const getTasksByLists = createSelector(getTaskLists, getTasksWithOwners, (lists, tasks) => {
+  return lists.map(list => {
+    return {
+      ...list,
+      tasks: tasks.filter(task => task.taskListId === list.id)
+    };
+  });
+});
+
+export const getProjectUsers = (projectId: string) => createSelector(getProjectState, getUserEntities, (state, entities) => {
+  return state.entities[projectId].members.map(id => entities[id]);
+});
+
 @NgModule({
   imports: [
     StoreModule.forRoot(reducers),
