@@ -10,18 +10,15 @@ import { Observable, of } from 'rxjs';
 })
 export class TaskListService {
 
-  private readonly domain = 'taskList';
+  private readonly domain = 'taskLists';
   private headers = new HttpHeaders({
     'Content-Type': 'application/json'
   });
   constructor(private http: HttpClient, @Inject('BASE_CONFIG') private config) { }
 
-  add(taskList: TaskListModel): Observable<void> {
-    taskList.id = null;
+  add(taskList: TaskListModel): Observable<TaskListModel> {
     const uri = `${this.config.uri}/${this.domain}`;
-    return this.http.post(uri, JSON.stringify(taskList), {headers: this.headers}).pipe(map(res => {
-      console.log(JSON.stringify(res));
-    }));
+    return this.http.post<TaskListModel>(uri, JSON.stringify(taskList), {headers: this.headers});
   }
 
   update(taskList: TaskListModel): Observable<void> {
