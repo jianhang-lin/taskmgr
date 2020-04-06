@@ -8,7 +8,7 @@ import { listAnimation } from '../../anim/list.anim';
 import * as _ from 'lodash';
 import * as fromRoot from '../../reducers';
 import * as actions from '../../actions/project.action';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ProjectModel } from '../../domain';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -57,7 +57,14 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   launchInviteDialog(project: ProjectModel) {
-    const dialogRef = this.dialog.open(InviteComponent, {data: {members: []}});
+    this.store$.select(fromRoot.getProjectUsers(project.id)).pipe(
+      map(users => this.dialog.open(InviteComponent, {data: {members: users}})),
+      // tslint:disable-next-line:no-shadowed-variable
+      switchMap(dialogRef => dialogRef.afterClosed().pipe(
+        take(1),
+        filter(n => n)
+      ))
+    ).subscribe(val => this.store$.dispatch(new actions.InviteAction({projectId: project.id, members: val})));
   }
 
   launchUpdateDialog(project: ProjectModel) {
