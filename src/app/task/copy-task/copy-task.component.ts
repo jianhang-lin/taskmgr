@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-copy-task',
@@ -10,13 +11,24 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class CopyTaskComponent implements OnInit {
 
   lists: any[];
-
-  constructor(@Inject(MAT_DIALOG_DATA) private data, private dialogRef: MatDialogRef<CopyTaskComponent>) { }
+  form: FormGroup;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data,
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<CopyTaskComponent>) { }
 
   ngOnInit(): void {
     this.lists = this.data.lists;
+    this.form = this.fb.group({
+      targetListId: []
+    });
   }
 
-  onClick() {
+  onSubmit(en: Event, {value, valid}) {
+    en.preventDefault();
+    if (!valid) {
+      return;
+    }
+    this.dialogRef.close(value.targetListId);
   }
 }
