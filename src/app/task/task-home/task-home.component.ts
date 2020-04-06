@@ -9,9 +9,10 @@ import * as fromRoot from '../../reducers';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, pipe } from 'rxjs';
-import { filter, pluck, take } from 'rxjs/operators';
+import { filter, map, pluck, switchMap, take } from 'rxjs/operators';
 import { TaskListModel } from '../../domain';
 import * as actions from '../../actions/task-list.action';
+import * as taskActions from '../../actions/task.action';
 
 @Component({
   selector: 'app-task-home',
@@ -40,8 +41,20 @@ export class TaskHomeComponent implements OnInit {
   }
 
 
-  launchNewTaskDialog() {
-    const dialogRef = this.dialog.open(NewTaskComponent, {data: {title: '新建任务'}});
+  launchNewTaskDialog(list) {
+    const user$ = this.store.select(fromRoot.getAuthState).pipe(
+      map(auth => auth.user)
+    );
+    user$.pipe(
+      take(1),
+      map(user => this.dialog.open(NewTaskComponent, {data: {title: '新建任务', owner: user}})),
+      switchMap(dialogRef => dialogRef.afterClosed().pipe(
+        take(1),
+        filter(n => n)
+      ))
+    ).subscribe(val => this.store.dispatch(
+      new taskActions.AddAction({...val, taskListId: list.id, completed: false, createDate: new Date()}))
+    );
   }
 
   launchCopyTaskDialog() {

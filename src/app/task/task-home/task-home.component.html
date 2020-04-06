@@ -12,8 +12,8 @@
                  *ngFor="let list of lists$ | async">
     <app-task-header
       [header]="list.name"
-      (newTask)="launchNewTaskDialog()"
-      (moveAll)="launchCopyTaskDialog()"
+      (newTask)="launchNewTaskDialog(list)"
+      (moveAll)="launchCopyTaskDialog(list)"
       (delList)="launchConfirmDialog(list)"
       (onEditList)="launchEditListDialog(list)"></app-task-header>
     <app-quick-task (quickTask)="handleQuickTask($event)"></app-quick-task>
