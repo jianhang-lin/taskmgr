@@ -10,6 +10,8 @@ import * as userActions from '../actions/user.action';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ProjectService } from '../services/project.service';
 import { ProjectModel } from '../domain';
+import { debug } from '../utils/debug.util';
+import { Auth } from '../services/auth.model';
 
 const toPayload = <T>(action: {payload: T}) => action.payload;
 
@@ -35,10 +37,10 @@ export class ProjectEffects {
   addProject$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.ADD),
     map(toPayload),
-    withLatestFrom(this.store$.select(fromRoot.getAuthState)),
-    switchMap(([project, auth]) => {
-        // @ts-ignore
-      const added = {...project, members: [`${auth.userId}`]};
+    debug('add'),
+    withLatestFrom(this.store$.select(fromRoot.getAuthState).pipe(map((auth: Auth) => auth.user)), debug('auth')),
+    switchMap(([project, user]) => {
+      const added = {...project, members: [`${user.id}`]};
       return this.service$.add(added).pipe(
         map(p => new actions.AddSuccessAction(p)),
           catchError(err => of(new actions.AddFailAction(JSON.stringify(err)))));
@@ -111,6 +113,33 @@ export class ProjectEffects {
     switchMap((projects: ProjectModel[]) => from(projects.map(prj => prj.id)).pipe(
       map(projectId => new userActions.LoadAction(projectId))
     ))
+  );
+
+  @Effect()
+  addUserProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.ADD_SUCCESS),
+    map(toPayload),
+    map((project: ProjectModel) => project.id),
+    withLatestFrom(this.store$.select(fromRoot.getAuthState).pipe(map(auth => auth.user)), (projectId, user) => {
+      return new userActions.AddAction({user, projectId});
+    })
+  );
+
+  @Effect()
+  removeUserProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.DELETE_SUCCESS),
+    map(toPayload),
+    map((project: ProjectModel) => project.id),
+    withLatestFrom(this.store$.select(fromRoot.getAuthState).pipe(map(auth => auth.user)), (projectId, user) => {
+      return new userActions.DeleteAction({user, projectId});
+    })
+  );
+
+  @Effect()
+  updateUserProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.INVITE_SUCCESS),
+    map(toPayload),
+    map((project: ProjectModel) => new userActions.UpdateAction(project))
   );
 
   constructor(
