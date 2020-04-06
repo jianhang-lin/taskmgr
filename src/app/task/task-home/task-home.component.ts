@@ -57,7 +57,7 @@ export class TaskHomeComponent implements OnInit {
     );
   }
 
-  launchCopyTaskDialog() {
+  launchCopyTaskDialog(list: TaskListModel) {
     // const dialogRef = this.dialog.open(CopyTaskComponent, {data: {lists: this.lists}});
   }
 
