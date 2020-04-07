@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -8,14 +9,22 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'project',
-    redirectTo: '/project',
-    pathMatch: 'full'
+    path: 'projects',
+    loadChildren: () => import(`./project/project.module`).then(m => m.ProjectModule),
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
   },
   {
-    path: 'tasklist',
-    redirectTo: '/tasklists',
-    pathMatch: 'full'
+    path: 'tasklists/:id',
+    loadChildren: () => import(`./task/task.module`).then(m => m.TaskModule),
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'mycal/:view',
+    loadChildren: () => import(`./my-calendar/my-calendar.module`).then(m => m.MyCalendarModule),
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
   }
 ];
 

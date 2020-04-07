@@ -4,7 +4,7 @@ import { TaskHomeComponent } from './task-home/task-home.component';
 
 const routes: Routes = [
   {
-    path: 'tasklists/:id',
+    path: '',
     component: TaskHomeComponent
   }
 ];

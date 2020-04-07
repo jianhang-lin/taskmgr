@@ -8,8 +8,8 @@ import { slideToRight } from '../../anim/router.anim';
 import * as fromRoot from '../../reducers';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, pipe } from 'rxjs';
-import { filter, map, pluck, switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { TaskListModel } from '../../domain';
 import * as actions from '../../actions/task-list.action';
 import * as taskActions from '../../actions/task.action';
@@ -33,7 +33,7 @@ export class TaskHomeComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private store: Store<fromRoot.State>,
     private route: ActivatedRoute) {
-    this.projectId$ = this.route.paramMap.pipe(pluck('id'));
+    this.projectId$ = this.route.paramMap.pipe(map(p => p.get('id')));
     this.lists$ = this.store.select(fromRoot.getTasksByLists);
   }
 
@@ -99,7 +99,10 @@ export class TaskHomeComponent implements OnInit {
 
   lauchNewListDialog(en: Event) {
     const dialogRef = this.dialog.open(NewTaskListComponent, {data: {title: '新建列表名称：'}});
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => this.store.dispatch(new actions.AddAction(result)));
+    dialogRef.afterClosed().pipe(
+      take(1),
+      withLatestFrom(this.projectId$, (val, projectId) => ({...val, projectId}))
+      ).subscribe(result => this.store.dispatch(new actions.AddAction(result)));
   }
 
   handleMove(srcData, list) {

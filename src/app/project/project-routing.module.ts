@@ -4,7 +4,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 
 const routes: Routes = [
   {
-    path: 'projects',
+    path: '',
     component: ProjectListComponent
   }
 ];
