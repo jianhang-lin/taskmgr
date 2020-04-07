@@ -1,1 +1,33 @@
-<p>calendar-home works!</p>
+<mat-card>
+  <div class="toolbar">
+    <button mat-icon-button mwlCalendarPreviousView>
+      <mat-icon class="md-48">chevron_left</mat-icon>
+    </button>
+    <button mat-button mwlCalendarToday>
+      {{viewDate | date: 'yyyy-MM-dd'}}
+    </button>
+    <button mat-icon-button mwlCalendarNextView>
+      <mat-icon class="md-48">chevron_right</mat-icon>
+    </button>
+  </div>
+  <ng-container *ngIf="(events$ | async) as calEvents">
+    <div [ngSwitch]="view$ | async">
+      <mwl-calendar-week-view *ngSwitchCase="'week'"
+                              [viewDate]="viewDate"
+                              [locale]="'zh'"
+                              [events]="calEvents"
+                              (eventClicked)="handleEvent($event.event)">
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view *ngSwitchCase="'day'"
+                             [viewDate]="viewDate"
+                             [locale]="'zh'"
+                             [events]="calEvents"
+                             (eventClicked)="handleEvent($event.event)"></mwl-calendar-day-view>
+      <mwl-calendar-month-view *ngSwitchDefault
+                               [viewDate]="viewDate"
+                               [locale]="'zh'"
+                               [events]="calEvents"
+                               (eventClicked)="handleEvent($event.event)"></mwl-calendar-month-view>
+    </div>
+  </ng-container>
+</mat-card>
