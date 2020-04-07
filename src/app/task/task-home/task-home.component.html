@@ -9,14 +9,14 @@
                  [dragData]="list"
                  (dropped)="handleMove($event, list)"
                  [ngStyle]="{'order': list.order}"
-                 *ngFor="let list of lists$ | async">
+                 *ngFor="let list of (lists$ | async)">
     <app-task-header
       [header]="list.name"
       (newTask)="launchNewTaskDialog(list)"
       (moveAll)="launchCopyTaskDialog(list)"
       (delList)="launchConfirmDialog(list)"
       (onEditList)="launchEditListDialog(list)"></app-task-header>
-    <app-quick-task (quickTask)="handleQuickTask($event)"></app-quick-task>
+    <app-quick-task (quickTask)="handleQuickTask($event, list)"></app-quick-task>
     <app-task-item *ngFor="let task of list.tasks" [item]="task" (taskClick)="lauchUpdateTaskDialog(task)"></app-task-item>
   </app-task-list>
 </div>

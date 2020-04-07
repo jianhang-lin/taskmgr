@@ -9,7 +9,7 @@ import * as fromRoot from '../reducers';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { TaskListService } from '../services/task-list.service';
 import { debug } from '../utils/debug.util';
-import {TaskListModel} from '../domain';
+import { TaskListModel } from '../domain';
 
 const toPayload = <T>(action: {payload: T}) => action.payload;
 
