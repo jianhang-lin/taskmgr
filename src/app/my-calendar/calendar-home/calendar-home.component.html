@@ -10,24 +10,24 @@
       <mat-icon class="md-48">chevron_right</mat-icon>
     </button>
   </div>
-  <ng-container *ngIf="(events$ | async) as calEvents">
+  <div *ngIf="(events$ | async) as calEvents">
     <div [ngSwitch]="view$ | async">
       <mwl-calendar-week-view *ngSwitchCase="'week'"
                               [viewDate]="viewDate"
-                              [locale]="'zh'"
+                              [locale]="'en'"
                               [events]="calEvents"
                               (eventClicked)="handleEvent($event.event)">
       </mwl-calendar-week-view>
       <mwl-calendar-day-view *ngSwitchCase="'day'"
                              [viewDate]="viewDate"
-                             [locale]="'zh'"
+                             [locale]="'en'"
                              [events]="calEvents"
                              (eventClicked)="handleEvent($event.event)"></mwl-calendar-day-view>
-      <mwl-calendar-month-view *ngSwitchDefault
+      <mwl-calendar-month-view *ngSwitchCase="'month'"
                                [viewDate]="viewDate"
-                               [locale]="'zh'"
+                               [locale]="'en'"
                                [events]="calEvents"
                                (eventClicked)="handleEvent($event.event)"></mwl-calendar-month-view>
     </div>
-  </ng-container>
+  </div>
 </mat-card>

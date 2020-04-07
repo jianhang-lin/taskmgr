@@ -6,7 +6,7 @@ import {map, switchMap} from 'rxjs/operators';
 import { TaskService } from '../../services/task.service';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
-import { startOfDay, endOfDay } from 'date-fns';
+import {startOfDay, endOfDay, parseJSON} from 'date-fns';
 
 const colors: any = {
   red: {
@@ -55,8 +55,8 @@ export class CalendarHomeComponent implements OnInit {
       switchMap(userId => this.service$.getUserTasks(userId)),
       map(tasks => tasks.map(task => {
         return {
-          start: startOfDay(task.createDate),
-          end: endOfDay(task.dueDate),
+          start: startOfDay(parseJSON(task.createDate)),
+          end: endOfDay(parseJSON(task.dueDate)),
           title: task.desc,
           color: getColor(task.priority)
         };

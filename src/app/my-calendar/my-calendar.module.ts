@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
 import { CalendarHomeComponent } from './calendar-home/calendar-home.component';
-import { CalendarModule } from 'angular-calendar';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { MyCalendarRoutingModule } from './my-calendar-routing.module';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 
 @NgModule({
   declarations: [CalendarHomeComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     MyCalendarRoutingModule,
-    CalendarModule
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
   ]
 })
 export class MyCalendarModule { }
