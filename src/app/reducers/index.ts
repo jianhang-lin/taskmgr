@@ -6,6 +6,7 @@ import * as fromProject from './project.reducer';
 import * as fromTaskList from './task-list.reducer';
 import * as fromTask from './task.reducer';
 import * as fromUser from './user.reducer';
+import * as actionActions from '../actions/auth.action';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { compose } from '@ngrx/core/compose';
@@ -46,7 +47,8 @@ const productionReducers: ActionReducer<State> = combineReducers(reducers);
 const developmentReducers: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
 
 export function reducer(state = initialState, action: any ): State {
-  return environment.production ? productionReducers(state, action) : developmentReducers(state, action);
+  return action.type === actionActions.ActionTypes.LOGOUT ? initialState :
+    environment.production ? productionReducers(state, action) : developmentReducers(state, action);
 }
 
 export const getQuoteState = (state: State) => state.quote;
