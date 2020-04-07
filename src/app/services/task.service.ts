@@ -66,4 +66,9 @@ export class TaskService {
     return this.http.get<TaskModel>(srcListId).pipe(mergeMap(tasks => from(tasks)), mergeMap(task => this.move(task.id, targetListId)),
       reduce((arr, x) => [...arr, x], []));
   }
+
+  getUserTasks(userId: string): Observable<TaskModel[]> {
+    const uri = `${this.config.uri}/${this.domain}`;
+    return this.http.get<TaskModel[]>(uri, {params: {ownerId: userId}});
+  }
 }
