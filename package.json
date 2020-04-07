@@ -26,6 +26,7 @@
     "@ngrx/router-store": "^9.0.0",
     "@ngrx/store": "^9.0.0",
     "@ngrx/store-devtools": "^9.0.0",
+    "angular-calendar": "^0.28.5",
     "date-fns": "^2.11.0",
     "lodash": "^4.17.15",
     "ngrx-store-freeze": "^0.2.4",
